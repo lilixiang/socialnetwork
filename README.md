@@ -1,3 +1,3 @@
 socialnetwork
 =============
-This is a sns website demo.
+This is an sns website demo.
