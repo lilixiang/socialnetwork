@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            {{ content.album.album_title }}
+        </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            <div class="text-right">
+        {% if not content.follow_btn.type %}
+
+                <a class="btn btn-info" href="http://localhost/album/{{ content.album.id }}/upload/">上传照片</a>
+                <a class="btn btn-info" href="http://localhost/album/{{ content.album.id }}/edit/">修改相册</a>
+                <a class="btn" href="javascript:history.back()">返回</a>
+        {% endif %}
+            </div>
+            <div id="album">
+                <ul class="thumbnails">
+                    {% for photo in content.photos %}
+                        <li class="span2">
+                            <a href="http://localhost/photo/{{ photo.id }}/" class="thumbnail">
+                                <img src="{{ photo.photo.url }}">
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="pagination pagination-centered">
+                <ul>
+
+                    {% if content.photos.has_previous %}
+                        <li><a href="?page={{ content.photos.previous_page_number }}"><<<</a></li>
+                    {% else %}
+                        <li class="disabled"><a><<<</a></li>
+                    {% endif %}
+                    {% for page in content.page_range %}
+                        {% ifequal page  content.photos.number %}
+                            <li class="active"><a>{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% endfor %}
+                    {% if content.photos.has_next %}
+                        <li><a href="?page={{ content.photos.next_page_number }}">>>></a></li>
+                    {% else %}
+                        <li class="disabled"><a>>>></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

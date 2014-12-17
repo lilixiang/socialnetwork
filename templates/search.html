@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %} {{ people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            查询结果
+        </h3>
+        {% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            <div id="grid" class="row">
+                <div id="feeds" class="span6">
+                    {% for profile in content.profiles %}
+                        <div class="feed media">
+                            <a class="pull-left"
+                               href="http://localhost/people/{{ profile.shorturl }}/">
+                                <img class="media-object" {% if profile.avatar_little %}
+                                     src="{{ profile.avatar_middle.url }}"
+                                {% endif %} alt="{{ profile.nickname }}">
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading">
+                                    <a href="http://localhost/people/{{ profile.shorturl }}/">
+                                        {{ profile.nickname }}
+                                    </a>
+                                </h5>
+
+                                <div class="media">
+                                    <blockquote>
+                                        <p>
+                                            {{ profile.location }}
+                                        </p>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <div class="pagination pagination-centered">
+                    <ul>
+
+                        {% if content.profiles.has_previous %}
+                            <li><a href="?s={{ content.s }}&&page={{ content.profiles.previous_page_number }}"><<<</a></li>
+                        {% else %}
+                            <li class="disabled"><a><<<</a></li>
+                        {% endif %}
+                        {% for page in content.page_range %}
+                            {% ifequal page  content.profiles.number %}
+                                <li class="active"><a>{{ page }}</a></li>
+                            {% else %}
+                                <li><a href="?s={{ content.s }}&&page={{ page }}">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if content.profiles.has_next %}
+                            <li><a href="?s={{ content.s }}&&page={{ content.profiles.next_page_number }}">>>></a></li>
+                        {% else %}
+                            <li class="disabled"><a>>>></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+
+
+    </div>
+{% endblock %}

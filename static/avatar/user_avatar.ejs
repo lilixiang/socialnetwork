@@ -1,0 +1,21 @@
+<div class="container_24 mt_20">
+  <div class="user">
+  <%- partial('web/user_menu', {user_menu: user_menu, view: view, u_t: u_t}) %>
+  <!--主区内容 start-->
+  <div class="user_body fl_l font_st" id="avatar">
+    <div class="panel">
+	  <div class="grid_19">
+	    <div>
+		  <div class="head border_e8"><span class="title font_micyahei orange">上传头像</span></div>
+		  <div class="body border_e8" id="avatarBox">
+		    <div class="mt_10">
+			  <%-avatarObj %>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <!--主区内容 end-->
+  </div>
+</div>

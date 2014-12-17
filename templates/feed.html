@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+
+    <div id="wrapper">
+    <h3 class="offset2">新鲜事</h3>
+
+    <div class="row">
+    <div class="span6 offset2 well">
+        <div id="status" class="row">
+            <div id="status-form" class="span6">
+                <form name="status" method="post" action="{{ request.path }}">
+                    {% csrf_token %}
+                    {{ content.status.status_content }}
+                    <div class="text-right">
+                        <span id="count">还可以输入140字</span>
+                        <button id="status-btn" class="btn" type="submit" disabled="disabled">提交</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div id="grid" class="row">
+            <div id="feeds" class="span6">
+                {% for feed in content.feed %}
+
+                    {% if feed.status_type == "Status" %}
+                        <div class="feed media">
+                            <a class="pull-left"
+                               href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/">
+                                <img class="media-object" {% if feed.status_author.get_profile.avatar_little %}
+                                     src="{{ feed.status_author.get_profile.avatar_middle.url }}"
+                                {% endif %} alt="{{ feed.status_author.get_profile.nickname }}">
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading">
+                                    <a href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/">
+                                        {{ feed.status_author.get_profile.nickname }}
+                                    </a>
+                                    &nbsp;说
+                                </h5>
+
+                                <div class="media">
+                                    <blockquote>
+                                        <p>
+                                            {{ feed.status_content }}
+                                        </p>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div class="actions text-right inline">
+                                <a title="{{ feed.status_date|date:"Y-n-j G:i:s" }}"
+                                   href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}">{{ feed.status_date|date:"Y-n-j G:i:s" }}</a>
+                                <a class="btn-action-comment btn-small btn"
+                                   href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}comment">回复</a>
+
+                            </div>
+                            <div class="comments span5" style="display:none">
+                                <div class="comment-item text-right">
+                                </div>
+                                <form class="form-inline comment-form" method="post" action="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}comment">
+                                    <div class="text-right">
+                                        <input class="comment-input" type="text" name="comment" data-type="status-comment">
+                                        <button class="btn comment-btn" type="submit" disabled="disabled" data-type="status-comment">发表回复</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% elif feed.status_type == "Note" %}
+                        <div class="feed media">
+                            <a class="pull-left"
+                               href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/">
+                                <img class="media-object"
+                                        {% if feed.status_author.get_profile.avatar_little %}
+                                     src="{{ feed.status_author.get_profile.avatar_middle.url }}"
+                                        {% endif %}
+                                     alt="{{ feed.status_author.get_profile.nickname }}">
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading">
+                                    <a href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/">
+                                        {{ feed.status_author.get_profile.nickname }}
+                                    </a>
+                                    发布了一篇日志
+                                    <a href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}">{{ feed.status_title }}</a>
+                                </h5>
+
+                                <div class="media">
+                                    <blockquote>
+                                        <p>
+                                            {{ feed.status_content|truncatechars:100 }}
+                                        </p>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div class="actions text-right inline">
+                                <a title="{{ feed.status_date|date:"Y-n-j G:i:s" }}"
+                                   href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}">{{ feed.status_date|date:"Y-n-j G:i:s" }}</a>
+                                <a class="btn-action-comment btn-small btn"
+                                   href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}comment">回复</a>
+
+                            </div>
+                            <div class="comments span5" style="display:none">
+                                <div class="comment-item text-right">
+                                </div>
+                                <form class="form-inline comment-form" method="post" action="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/{{ feed.status_url }}comment">
+                                    <div class="text-right">
+                                        <input class="comment-input" type="text" name="comment" data-type="status-comment">
+                                        <button class="btn comment-btn" type="submit" disabled="disabled" data-type="status-comment">发表回复</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% elif feed.status_type == "Photo" %}
+                        <div class="feed media">
+                            <a class="pull-left"
+                               href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/">
+                                <img class="media-object"
+                                        {% if feed.status_author.get_profile.avatar_little %}
+                                     src="{{ feed.status_author.get_profile.avatar_middle.url }}"
+                                        {% endif %} alt="{{ feed.status_author.get_profile.nickname }}">
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading">
+                                    <a href="http://localhost/people/{{ feed.status_author.get_profile.shorturl }}/">
+                                        {{ feed.status_author.get_profile.nickname }}
+                                    </a>
+                                    上传了照片至
+                                    {{ feed.status_content|safe|escape }}
+                                </h5>
+
+                                <div class="media">
+                                    <ul class="thumbnails">
+                                        <li class="span2">
+                                            <a class="thumbnail" href="http://localhost/{{ feed.status_url }}">
+                                                <img src="{{ feed.status_title }}">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+
+                            <div class="actions text-right inline">
+                                <a title="{{ feed.status_date|date:"Y-n-j G:i:s" }}"
+                                   href="http://localhost/{{ feed.status_url }}">{{ feed.status_date|date:"Y-n-j G:i:s" }}</a>
+                                <a class="btn-action-comment btn-small btn"
+                                   href="http://localhost/{{ feed.status_url }}comment">回复</a>
+
+                            </div>
+                            <div class="comments span5" style="display:none">
+                                <div class="comment-item text-right">
+                                </div>
+                                <form class="form-inline comment-form" method="post" action="http://localhost/{{ feed.status_url }}comment">
+                                    <div class="text-right">
+                                        <input class="comment-input" type="text" name="comment" data-type="status-comment">
+                                        <button class="btn comment-btn" type="submit" disabled="disabled" data-type="status-comment">发表回复</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                    {% endif %}
+
+
+
+
+                {% endfor %}
+
+
+                <div class="pagination pagination-centered">
+                    <ul>
+
+                        {% if content.feed.has_previous %}
+                            <li><a href="?page={{ content.feed.previous_page_number }}"><<<</a></li>
+                        {% else %}
+                            <li class="disabled"><a><<<</a></li>
+                        {% endif %}
+                        {% for page in content.page_range %}
+                            {% ifequal page  content.feed.number %}
+                                <li class="active"><a>{{ page }}</a></li>
+                            {% else %}
+                                <li><a href="?page={{ page }}">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if content.feed.has_next %}
+                            <li><a href="?page={{ content.feed.next_page_number }}">>>></a></li>
+                        {% else %}
+                            <li class="disabled"><a>>>></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="follow_list span3 row">
+            <h4>我的关注··· ···（<a href="http://localhost/people/{{ content.profile.shorturl }}/contact/list">{{ content.follow.count }}</a>）</h4>
+            {% for follow in content.follow|slice:":3" %}
+                <dl class="follow">
+                    <dt>
+                        <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                            <img
+                                    {% if follow.friend.get_profile.avatar_little %}
+                                        src="{{ follow.friend.get_profile.avatar_little.url }}"
+                                    {% endif %}
+                                        alt="{{ follow.friend.get_profile.nickname }}"/>
+                        </a>
+                    </dt>
+                    <dd>
+                        <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                            {{ follow.friend.get_profile.nickname }}
+                        </a>
+                    </dd>
+                </dl>
+            {% endfor %}
+        </div>
+
+        <div class="nav row span2">
+            <ul class="nav nav-list">
+                <li><a href="{{ content.follow_by_url }}"><i
+                        class="icon-chevron-right"></i>我被{{ content.follow_by.count }}人关注</a></li>
+                <li><a href="{{ content.note_url }}"><i class="icon-chevron-right"></i>我的日记</a></li>
+                <li><a href="{{ content.album_url }}"><i class="icon-chevron-right"></i>我的相册</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

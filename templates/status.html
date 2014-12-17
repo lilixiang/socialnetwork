@@ -1,0 +1,32 @@
+{%extends 'base.html'  %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% block content %}
+
+<p>
+    <div>{{ content.status.status_title }}</div>
+    <div>{{ content.status.status_date }}</div>
+    <div>{{ content.status.status_content }}</div>
+    <div>{{ content.status.status_id }}</div>
+
+</p>
+<p>回应</p>
+
+{% for comment in content.comment %}
+<div>
+<img src="{{ comment.comment_author.get_profile.big_avatar.url }}" height="50px"  width="50px"/>
+<a href="/people/{{ comment.comment_author.get_profile.shorturl }}/">
+{{ comment.comment_author.get_profile.nickname }}
+</a>
+{{ comment.comment_content }}
+{{ comment.comment_date|date:"Y-n-j,G:i" }}
+{{ forloop.counter }}楼
+</div>
+{% endfor %}
+
+
+<a href= '{{ content.reply.reply_url }}'>{{ content.reply.name }}</a>
+
+
+{% endblock %}

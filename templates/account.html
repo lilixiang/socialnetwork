@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            账户资料
+        </h3>
+
+
+        <div class="span2">
+
+            <div class="thumbnail">
+                {% if content.profile.avatar_big %}
+                    <img src="{{ content.profile.avatar_big.url }}"/>
+                {% endif %}
+
+                <div class="caption">
+                    <h3>{{ content.profile.nickname }}</h3>
+
+                    <p>居住地：{{ content.profile.location }}</p>
+
+                    <p>生日：{{ content.profile.birthday|date:"Y-n-j" }}</p>
+
+                    <p>性别： {{ content.profile.gender }}</p>
+                    {% if content.follow_btn.type %}
+                        <p><a href="{{ content.follow_btn.follow_url }}"
+                              class="btn btn-primary">{{ content.follow_btn.type }}</a></p>
+                    {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+        <div class="span6 well">
+
+            <form id="account" name="account" method="post" action="/account/">
+                <table class="table">
+
+                    <tr class="field">
+                        <td>{{ content.form.nickname.label_tag }}</td>
+                        <td>{{ content.form.nickname }}</td>
+                        {% if content.form.nickname.errors %}
+                            <td>{{ content.form.nickname.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr class="field">
+                        <td>{{ content.form.shorturl.label_tag }}</td>
+                        <td>{{ content.form.shorturl }}</td>
+                        {% if content.form.shorturl.errors %}
+                            <td>{{ content.form.shorturl.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr class="field">
+                        <td>头像</td>
+                        <td>
+                            <img src="
+                {% if content.form.instance.avatar_middle %}
+                {{ content.form.instance.avatar_middle.url }}
+                {% endif %}
+                "/>
+                            <a class="btn" name="change-user-icon" href="/account/user-icon/">修改头像</a>
+                        </td>
+                        {% if content.form.avatar.errors %}
+                            <td>{{ content.form.avatar.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr class="field">
+                        <td>{{ content.form.location.label_tag }}</td>
+                        <td>{{ content.form.location }}</td>
+                        {% if content.form.location.errors %}
+                            <td>{{ content.form.location.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr class="field">
+                        <td>{{ content.form.birthday.label_tag }}</td>
+                        <td>{{ content.form.birthday }}</td>
+                        {% if content.form.birthday.errors %}
+                            <td>{{ content.form.birthday.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr class="field">
+                        <td>{{ content.form.gender.label_tag }}</td>
+                        <td>
+                            {% for radio in content.form.gender %}
+                                <label class="radio inline">
+                                    {{ radio.tag }}
+                                    {{ radio.choice_label }}
+                                </label>
+                            {% endfor %}
+                        </td>
+                        {% if content.form.gender.errors %}
+                            <td>{{ content.form.gender.errors }}</td>
+                        {% endif %}
+                    </tr>
+
+
+                </table>
+                <input class="btn" name="submit" type="submit" value="修改">
+        </form>
+    </div>
+
+
+    <div class="span3">
+        <div class="follow_list span3 row">
+
+            <h4>我的关注··· ···（<a
+                    href="http://localhost/people/{{ content.profile.shorturl }}/contact/list">{{ content.follow.count }}</a>）
+            </h4>
+
+            {% for follow in content.follow|slice:":3" %}
+                <dl class="follow">
+                    <dt>
+                        <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                            <img
+                                    {% if follow.friend.get_profile.avatar_little %}
+                                        src="{{ follow.friend.get_profile.avatar_little.url }}"
+                                    {% endif %}
+                                        alt="{{ follow.friend.get_profile.nickname }}"/>
+                        </a>
+                    </dt>
+                    <dd>
+                        <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                            {{ follow.friend.get_profile.nickname }}
+                        </a>
+                    </dd>
+                </dl>
+            {% endfor %}
+        </div>
+        <div class="nav row span2">
+            <ul class="nav nav-list">
+                {% if content.follow_btn.type %}
+                    <li><a href="http://localhost/people/{{ content.profile.shorturl }}/contact/rlist"><i
+                            class="icon-chevron-right"></i>
+                        {{ content.profile.nickname }}被{{ content.follow_by.count }}人关注</a></li>
+                    <li><a href="http://localhost/people/{{ content.profile.shorturl }}/notes/"><i
+                            class="icon-chevron-right"></i>{{ content.profile.nickname }}的日记</a></li>
+                    <li><a href="http://localhost/people/{{ content.profile.shorturl }}/albums/"><i
+                            class="icon-chevron-right"></i>{{ content.profile.nickname }}的相册</a></li>
+
+
+                {% else %}
+                    <li><a href="http://localhost/people/{{ content.profile.shorturl }}/contact/rlist"><i
+                            class="icon-chevron-right"></i>
+                        我被{{ content.follow_by.count }}人关注</a></li>
+                    <li><a href="http://localhost/people/{{ content.profile.shorturl }}/notes/"><i
+                            class="icon-chevron-right"></i>我的日记</a></li>
+                    <li><a href="http://localhost/people/{{ content.profile.shorturl }}/albums/"><i
+                            class="icon-chevron-right"></i>我的相册</a></li>
+
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

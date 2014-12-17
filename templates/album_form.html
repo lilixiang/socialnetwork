@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+        <div id="wrapper">
+            <h3 class="span10   offset2">
+                创建相册
+            </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+            <div class="span6 well">
+
+                <form id="album" name="album" method="post" action="{{ request.path }}">
+                    <table class="table">
+                        <tr class="field">
+                            <td>{{ content.form.album_title.label_tag }}</td>
+                            <td>{{ content.form.album_title }}</td>
+                            {% if content.form.album_title.errors %}
+                                <td>{{ content.form.album_title.errors }}</td>
+
+                            {% endif %}
+                        </tr>
+
+<!--
+                        <tr class="field">
+                            <td>{{ content.form.album_privacy.label_tag }}</td>
+                            <td>
+                                {% for radio in content.form.album_privacy %}
+                                    <span class="album_privacy">
+                        {{ radio }}
+                    </span>
+                                {% endfor %}
+                            </td>
+                            {% if content.form.album_privacy.errors %}
+                                <td>{{ content.form.album_privacy.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr class="field">
+                            <td>{{ content.form.album_comment.label_tag }}</td>
+                            <td>{{ content.form.album_comment }}</td>
+                            {% if content.form.album_comment.errors %}
+                                <td>{{ content.form.album_comment.errors }}</td>
+                            {% endif %}
+                        </tr>
+-->
+
+                    </table>
+                    <div class="text-right">
+                        <input class="btn btn-info" name="submit" type="submit" value="提交">
+                        <a class="btn" href="javascript:history.back()">返回</a>
+
+                    </div>
+                </form>
+            </div>
+
+
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+        </div>
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

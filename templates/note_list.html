@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %} {{ people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            {% if content.follow_btn.type %}
+                {{ content.profile.nickname }}的日记
+            {% else %}
+                我的日记
+            {% endif %}
+        </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            {% if not content.follow_btn.type %}
+
+                <p class="text-right">
+                    <a class="btn btn-info" href="http://localhost/people/{{ content.profile.shorturl }}/note/create/">写日记</a>
+                </p>
+                <div id="grid" class="row">
+
+            {% endif %}
+
+            <div id="feeds" class="span6">
+                {% for note in content.notes %}
+                    <div class="feed media">
+
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <a href="http://localhost/people/{{ note.note_authors.get_profile.shorturl }}/note/{{ note.id }}">
+                                    {{ note.note_title }}
+                                </a>
+                            </h5>
+
+                            <div class="media">
+                                <p class="text-right">
+                                    {{ note.note_date|date:"Y-n-j G:i:s" }}
+                                </p>
+                                <blockquote>
+                                    <p>
+
+                                    <div>{{ note.note_content|truncatechars:100 }}</div>
+                                    </p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+            <div class="pagination pagination-centered">
+                <ul>
+
+                    {% if content.notes.has_previous %}
+                        <li><a href="?page={{ content.notes.previous_page_number }}"><<<</a></li>
+                   {% else %}
+                        <li class="disabled"><a><<<</a></li>
+                    {% endif %}
+                    {% for page in content.page_range %}
+                        {% ifequal page  content.notes.number %}
+                            <li class="active"><a>{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% endfor %}
+                    {% if content.notes.has_next %}
+                        <li><a href="?page={{ content.notes.next_page_number }}">>>></a></li>
+                    {% else %}
+                        <li class="disabled"><a>>>></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            </div>
+        </div>
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}
+

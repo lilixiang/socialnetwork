@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %} {{ people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            {% if content.follow_btn.type %}
+                {{ content.profile.nickname }}的相册
+            {% else %}
+                我的相册
+            {% endif %}
+        </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            {% if not content.follow_btn.type %}
+
+                <p class="text-right"><a class="btn btn-info"
+                                         href="http://localhost/album/create/">创建相册</a>
+                </p>
+                <div id="grid" class="row">
+
+            {% endif %}
+
+            <div id="feeds" class="span6">
+                {% for album in content.albums %}
+                    <div class="feed media">
+
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <a href="http://localhost/album/{{ album.id }}">
+                                    {{ album.album_title }}
+                                </a>
+                            </h5>
+
+                            <div class="media">
+                                <p class="text-right">
+                                    {{ album.album_date|date:"Y-n-j G:i:s" }}
+                                </p>
+                                <blockquote>
+                                    <p>
+
+                                    <div>{{ album.album_content|truncatechars:100 }}</div>
+                                    </p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+            <div class="pagination pagination-centered">
+                <ul>
+
+                    {% if content.albums.has_previous %}
+                        <li><a href="?page={{ content.albums.previous_page_number }}"><<<</a></li>
+                    {% else %}
+                        <li class="disabled"><a><<<</a></li>
+                    {% endif %}
+                    {% for page in content.page_range %}
+                        {% ifequal page  content.albums.number %}
+                            <li class="active"><a>{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% endfor %}
+                    {% if content.albums.has_next %}
+                        <li><a href="?page={{ content.albums.next_page_number }}">>>></a></li>
+                    {% else %}
+                        <li class="disabled"><a>>>></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            </div>
+        </div>
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}
+

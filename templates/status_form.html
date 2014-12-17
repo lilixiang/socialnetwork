@@ -1,0 +1,23 @@
+{%extends 'base.html'  %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% block content %}
+
+{% csrf_token %}
+<form id="status" name="status" method="post" action="{{ request.path }}">
+    <table>
+        <tr class="field">
+            <td>{{ content.form.status_content.label_tag }}</td>
+            <td>{{ content.form.status_content }}</td>
+            {% if content.form.status_content.errors %}
+                <td>{{ content.form.status_content.errors }}</td>
+            {% endif %}
+        </tr>
+
+    </table>
+    <input class="btn" name="submit" type="submit" value="提交" >
+    </div>
+</form>
+
+{% endblock %}

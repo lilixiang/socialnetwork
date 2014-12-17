@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.Jcrop.css"  />
+
+</head>
+    <body>
+        <script src="{{ STATIC_URL }}js/jquery.js"></script>
+        <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+        <script src="{{ STATIC_URL }}js/script.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.Jcrop.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.color.js"></script>
+        <script src="{{ STATIC_URL }}datepicker/WdatePicker.js"></script>        {% block nav %}{% endblock %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

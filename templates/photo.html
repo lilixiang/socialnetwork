@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+        </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            <div class="text-right">
+                <a class="btn" href="http://localhost/album/{{ content.album.id }}/">返回相册</a>
+            </div>
+            <div id="photo" >
+                    <img src="{{ content.photo.photo.url }}" class="img-polaroid span5">
+            </div>
+
+        </div>
+
+
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

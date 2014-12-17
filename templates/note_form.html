@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            写日记
+        </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+
+            <form class="span5" id="note" name="note" method="post" action="{{ request.path }}">
+                <table class="table">
+                    <tr class="field">
+                        <td>{{ content.form.note_title.label_tag }}</td>
+                        <td>{{ content.form.note_title }}</td>
+                        {% if content.form.note_title.errors %}
+                            <td>{{ content.form.note_title.errors }}</td>
+
+                        {% endif %}
+                    </tr>
+
+                    <tr class="field">
+                        <td>{{ content.form.note_content.label_tag }}</td>
+                        <td>{{ content.form.note_content }}</td>
+                        {% if content.form.note_content.errors %}
+                            <td>{{ content.form.note_content.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <!--
+                    <tr class="field">
+                        <td>{{ content.form.note_privacy.label_tag }}</td>
+                        <td>
+                            {% for radio in content.form.note_privacy %}
+                                <span class="note_privacy">
+                        {{ radio }}
+                    </span>
+                            {% endfor %}
+                        </td>
+                        {% if content.form.note_privacy.errors %}
+                            <td>{{ content.form.note_privacy.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr class="field">
+                        <td>{{ content.form.note_comment.label_tag }}</td>
+                        <td>{{ content.form.note_comment }}</td>
+                        {% if content.form.note_comment.errors %}
+                            <td>{{ content.form.note_comment.errors }}</td>
+                        {% endif %}
+                    </tr>
+-->
+                </table>
+                <div class="text-right">
+                    <input class="btn btn-info" name="submit" type="submit" value="提交">
+                    <a class="btn" href="javascript:history.back()">返回</a>
+
+                </div>
+            </form>
+        </div>
+
+
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}

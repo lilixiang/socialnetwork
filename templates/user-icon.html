@@ -1,0 +1,93 @@
+{%extends 'base.html'  %}
+{% block title %} {{ content.people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+
+
+    {{ content.swf|safe }}
+
+
+    <script type="text/javascript">
+
+
+function getParamsFromUrl() {
+	var url, pos, parastr, para;
+	url = window.location.href;
+	pos = url.indexOf("?")
+	if (pos > -1) {
+		parastr = url.substring(pos + 1);
+	} else {
+		parastr = "";
+	}
+	return parastr;
+}
+
+function reload() {
+	window.location.reload();
+}
+
+function getUploadUrl() {
+	return "http://localhost/account/user-icon/";
+	//return "http://www.maylandstudio.com/c_util/avatarForm";
+}
+
+function uploadSuccessHandler(callbackMsg) {
+	//alert("上传成功，回调方法请写在这里");
+	//alert(callbackMsg);
+}
+
+function uploadFailHandler(callbackMsg) {
+	//alert("上传失败，回调方法请写在这里");
+	//alert(callbackMsg);
+}
+
+//大头像：宽
+function getBigAvatarWidth() {
+	return 150;
+}
+
+//大头像：高
+function getBigAvatarHeight() {
+	return 150;
+}
+
+//中头像：宽
+function getMiddleAvatarWidth() {
+	return 100;
+}
+
+//中头像：高
+function getMiddleAvatarHeight() {
+	return 100;
+}
+
+//小头像：宽
+function getLittleAvatarWidth() {
+	return 50;
+}
+
+//小头像：高
+function getLittleAvatarHeight() {
+	return 50;
+}
+
+//裁剪框：宽
+function getCutRectWidth() {
+	return 150;
+}
+
+//裁剪框：高
+function getCutRectHeight() {
+	return 150;
+}
+</script>
+
+
+
+{% endblock %}
+
+
+
+

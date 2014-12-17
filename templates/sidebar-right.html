@@ -1,0 +1,58 @@
+<div class="span3">
+    <div class="follow_list span3 row">
+        {% if content.follow_btn.type %}
+            <h4>{{ content.profile.nickname }}的关注··· ···（<a
+                    href="http://localhost/people/{{ content.profile.shorturl }}/contact/list">{{ content.follow.count }}</a>）
+            </h4>
+
+        {% else %}
+            <h4>我的关注··· ···（<a
+                    href="http://localhost/people/{{ content.profile.shorturl }}/contact/list">{{ content.follow.count }}</a>）
+            </h4>
+
+        {% endif %}
+        {% for follow in content.follow|slice:":3" %}
+            <dl class="follow">
+                <dt>
+                    <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                        <img
+                                {% if follow.friend.get_profile.avatar_little %}
+                                    src="{{ follow.friend.get_profile.avatar_little.url }}"
+                                {% endif %}
+                                    alt="{{ follow.friend.get_profile.nickname }}"/>
+                    </a>
+                </dt>
+                <dd>
+                    <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                        {{ follow.friend.get_profile.nickname }}
+                    </a>
+                </dd>
+            </dl>
+        {% endfor %}
+    </div>
+
+    <div class="nav row span2">
+        <ul class="nav nav-list">
+            {% if content.follow_btn.type %}
+                <li><a href="http://localhost/people/{{ content.profile.shorturl }}/contact/rlist"><i
+                        class="icon-chevron-right"></i>
+                    {{ content.profile.nickname }}被{{ content.follow_by.count }}人关注</a></li>
+                <li><a href="http://localhost/people/{{ content.profile.shorturl }}/notes/"><i
+                        class="icon-chevron-right"></i>{{ content.profile.nickname }}的日记</a></li>
+                <li><a href="http://localhost/people/{{ content.profile.shorturl }}/albums/"><i
+                        class="icon-chevron-right"></i>{{ content.profile.nickname }}的相册</a></li>
+
+
+            {% else %}
+                <li><a href="http://localhost/people/{{ content.profile.shorturl }}/contact/rlist"><i
+                        class="icon-chevron-right"></i>
+                    我被{{ content.follow_by.count }}人关注</a></li>
+                <li><a href="http://localhost/people/{{ content.profile.shorturl }}/notes/"><i
+                        class="icon-chevron-right"></i>我的日记</a></li>
+                <li><a href="http://localhost/people/{{ content.profile.shorturl }}/albums/"><i
+                        class="icon-chevron-right"></i>我的相册</a></li>
+
+            {% endif %}
+        </ul>
+    </div>
+</div>

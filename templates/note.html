@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %} {{ people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            {% if content.follow_btn.type %}
+                {{ content.profile.nickname }}的日记
+            {% else %}
+                我的日记
+            {% endif %}
+        </h3>
+
+
+        {% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            {% if not content.follow_btn.type %}
+
+                <p class="text-right">
+                    <a class="btn btn-info" href="http://localhost/people/{{ content.profile.shorturl }}/note/create/">写日记</a>
+                    <a class="btn btn-info" href="http://localhost/people/{{ content.profile.shorturl }}/note/{{ content.note.id }}/edit/">修改</a>
+                    <a class="btn btn-danger" href="http://localhost/people/{{ content.profile.shorturl }}/note/{{ content.note.id }}/del">删除</a>
+
+                </p>
+                <div id="grid" class="">
+
+            {% endif %}
+            <div class="row">
+                <div id="note" class="span6">
+                    <h4>{{ content.note.note_title }}</h4>
+
+                    <p class="text-right">{{ content.note.note_date|date:"Y-n-j G:i:s" }}</p>
+
+                    <p>{{ content.note.note_content }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div id="comment" class="span6">
+                    <h4>评论</h4>
+                    <div class="comments" class="span6">
+                        {% for comment in content.notecomment %}
+                            <div class="media comment-item">
+                                <a class="pull-left"
+                                   href="http://people/{{ comment.comment_author.get_profile.shorturl }}/">
+                                    <img src="{{ comment.comment_author.get_profile.avatar_little.url }}" height="50px"
+                                         width="50px"/>
+                                </a>
+
+                                <div class="media-body">
+                                    <h5 class="media-heading">
+                                        {{ forloop.counter }}楼
+                                        {{ comment.comment_date|date:"Y-n-j  G:i" }}
+                                        <a href="/people/{{ comment.comment_author.get_profile.shorturl }}/">
+                                            {{ comment.comment_author.get_profile.nickname }}
+                                        </a>
+                                    </h5>
+                                    <div class="media">
+                                        {{ comment.comment_content }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <form id="comment-form" method="post" action="{{ request.path }}">
+                        {% csrf_token %}
+                        {{ content.comment.comment_content }}
+
+                        {% if content.form.comment_content.errors %}
+                            {{ content.form.comment_content.errors }}
+                        {% endif %}
+                        <div class="text-right">
+                            <button id="comment-btn" class="btn" type="submit" disabled="disabled">评论</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        {% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}
+

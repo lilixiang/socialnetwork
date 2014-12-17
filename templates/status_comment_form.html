@@ -1,0 +1,4 @@
+{% for comment in content.comments %}
+    <p class="">{{ comment.comment_content }} - <a href="http://localhost/people/{{ comment.comment_author.get_profile.shorturl }}/">{{ comment.comment_author.get_profile.nickname }}</a></p>
+{% endfor %}
+

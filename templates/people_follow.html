@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %} {{ people.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+
+{% block content %}
+    <div id="wrapper">
+    <h3 class="span10   offset2">
+        {% if content.follow_btn.type %}
+                {{ content.profile.nickname }}的关注
+        {% else %}
+                我的关注
+        {% endif %}
+    </h3>
+
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+            <div id="grid" class="row">
+                <div id="feeds" class="span6">
+                    {% for follow in content.follows %}
+                        <div class="feed media">
+                            <a class="pull-left"
+                               href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                                <img class="media-object" {% if follow.friend.get_profile.avatar_little %}
+                                     src="{{ follow.friend.get_profile.avatar_middle.url }}"
+                                {% endif %} alt="{{ follow.friend.get_profile.nickname }}">
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading">
+                                    <a href="http://localhost/people/{{ follow.friend.get_profile.shorturl }}/">
+                                        {{ follow.friend.get_profile.nickname }}
+                                    </a>
+                                </h5>
+
+                                <div class="media">
+                                    <blockquote>
+                                        <p>
+                                            {{ follow.friend.get_profile.location }}
+                                        </p>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <div class="pagination pagination-centered">
+                    <ul>
+
+                        {% if content.follows.has_previous %}
+                            <li><a href="?page={{ content.follows.previous_page_number }}"><<<</a></li>
+                        {% else %}
+                            <li class="disabled"><a><<<</a></li>
+                        {% endif %}
+                        {% for page in content.page_range %}
+                            {% ifequal page  content.follows.number %}
+                                <li class="active"><a>{{ page }}</a></li>
+                            {% else %}
+                                <li><a href="?page={{ page }}">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if content.follows.has_next %}
+                            <li><a href="?page={{ content.follows.next_page_number }}">>>></a></li>
+                        {% else %}
+                            <li class="disabled"><a>>>></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}

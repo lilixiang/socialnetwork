@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block nav %} {% include 'navigation.html' %} {% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    <div id="wrapper">
+        <h3 class="span10   offset2">
+            上传照片
+        </h3>
+
+
+{% block sidebar-left %} {% include 'sidebar-left.html' %} {% endblock %}
+        <div class="span6 well">
+
+            <form id="album" name="album" method="post" action="{{ request.path }}" enctype="multipart/form-data">
+                <table class="table">
+                    <tr class="field">
+                        <td>{{ content.form.photo.label_tag }}</td>
+                        <td>
+
+                            <div>{{ content.form.photo }}</div>
+
+                        </td>
+                        {% if content.form.photo.errors %}
+                            <td>{{ content.form.photo.errors }}</td>
+                        {% endif %}
+                    </tr>
+                </table>
+                <div class="text-right">
+                    <input class="btn btn-info" name="submit" type="submit" value="上传">
+                    <a class="btn" href="javascript:history.back()">返回</a>
+
+                </div>
+            </form>
+        </div>
+
+
+{% block sidebar-right %} {% include 'sidebar-right.html' %} {% endblock %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
